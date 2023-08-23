@@ -2,7 +2,6 @@ import cv2                              #Libreria de OpenCV, para dibujar rectan
 import face_recognition                 #Libreria para el Reconocimiento Facial
 import os                               #Libreria para iterar sobre los directorios
 
-PROJECT_FOLDER = "FaceRecognitionV1"
 KNOWN_IDENTITIES = "Known_Identities"
 UNKNOWN_IDENTITIES = "Unknown_Identities"
 TOLERANCE = 0.6
@@ -10,16 +9,16 @@ TOLERANCE = 0.6
 known_names = []                #Aqui guardamos los nombres de los archivos conocidos
 known_encodings = []            #Aqui guardamos los encodings de las caras que conocemos
 
-for file in os.listdir(f"{PROJECT_FOLDER}//{KNOWN_IDENTITIES}"):
+for file in os.listdir(f"{KNOWN_IDENTITIES}"):
     if file != ".DS_Store":
-        image = face_recognition.load_image_file(f"{PROJECT_FOLDER}//{KNOWN_IDENTITIES}//{file}")
+        image = face_recognition.load_image_file(f"{KNOWN_IDENTITIES}//{file}")
         encoding = face_recognition.face_encodings(image)[0]        #Posicion 0 para obtener solo una cara, ya que face_encodings toma las coordenadas suficientes para todas las caras, pero en la carpeta de KNOWN_IDENTITIES se debe tener solo una persona por imagen (que la identifique). Por eso tomamos solo la posicion 0
         known_names.append(file)
         known_encodings.append(encoding)
 
-for file in os.listdir(f"{PROJECT_FOLDER}//{UNKNOWN_IDENTITIES}"):
+for file in os.listdir(f"{UNKNOWN_IDENTITIES}"):
     if file != ".DS_Store":
-        image = face_recognition.load_image_file(f"{PROJECT_FOLDER}//{UNKNOWN_IDENTITIES}//{file}")
+        image = face_recognition.load_image_file(f"{UNKNOWN_IDENTITIES}//{file}")
         encodings = face_recognition.face_encodings(image)          #Sacamos lista de todas las caras codificadas que hemos identificado
         locations = face_recognition.face_locations(image)          #Sacamos lista de las localizaciones(coordenadas) de las caras identificadas
         for encoding, location in zip(encodings, locations):        #Bucle que itera sobre la lista de localizaciones y codificaciones de caras simultaneamente (como tienen el mismo numero de elementos, no nos tenemos preocupar por el numero de iteraciones)
